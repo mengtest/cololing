@@ -32,12 +32,16 @@ public class ChangeColor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {       
         lerp = Mathf.PingPong(Time.time, duration) / duration;
-        plane_material.color = Color.Lerp(start_color, end_color, lerp);
-        skybox.material.color = Color.Lerp(start_color, end_color, lerp);
-        if (gm.isCollided)
+        //plane_material.color = Color.Lerp(start_color, end_color, lerp);
+        //skybox.material.color = Color.Lerp(start_color, end_color, lerp);
+
+        if (player.transform.position.x > gm.upper_bound && player.transform.position.x > gm.lower_bound && !gm.isCollided)
         {
-            player_material.color = colors[Random.Range(0, 3)];
-            gm.isCollided = false;
+            gm.isAlive = false;
         }
+        else if (player.transform.position.x >= gm.final_bound)
+        {
+            gm.isWinner = true;
+        }        
     }
 }

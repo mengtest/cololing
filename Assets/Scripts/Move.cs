@@ -4,16 +4,28 @@ using System.Collections;
 public class Move : MonoBehaviour {
     private Rigidbody m_RigidBody;
     private int way_state;
+    public float max_velocity;
+    private bool uniform;
 
     // Use this for initialization
     void Start () {
         way_state = 1;
         m_RigidBody = GetComponent<Rigidbody>();
+        uniform = false;
     }
 
 	// Update is called once per frame
 	void Update () {
-        m_RigidBody.AddForce(Vector3.right * 500 * Time.deltaTime);
+        if (m_RigidBody.velocity.x >= max_velocity)
+        {
+            uniform = true;
+        }
+        if (!uniform)
+        {
+            m_RigidBody.AddForce(Vector3.right * 500 * Time.deltaTime);
+            m_RigidBody.AddTorque(Vector3.back * 500 * Time.deltaTime);
+        }
+        Debug.Log(m_RigidBody.velocity);
         StartCoroutine(Evade());
     }
 
