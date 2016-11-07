@@ -7,12 +7,11 @@ public class ColorMatch : MonoBehaviour {
     {
         var gm = GameObject.Find("gameManager").GetComponent<GameManager>();
         if (collision.gameObject.tag == "Player" &&
-            this.GetComponent<MeshRenderer>().material.color
-            != collision.gameObject.GetComponent<MeshRenderer>().material.color)
+            this.GetComponent<Renderer>().material.color
+            != collision.gameObject.GetComponent<Renderer>().material.color)
         {
             Destroy(gameObject);
-            gm.isCollided = true;
-            gm.score++;           
+            gm.isCollided = true;         
         }
         else
         {

@@ -3,20 +3,24 @@ using System.Collections;
 
 public class RandomCubes : MonoBehaviour {
     public GameObject spawn;
-    public Color[] colors = { Color.blue, Color.red, Color.yellow };
     private GameObject player;
     private GameManager gm;
+    private Renderer rend;
+    private Shader standard_shader;
     // Use this for initialization
-    void Start () {
+    void Start() {
+        rend = GetComponent<Renderer>();
+        standard_shader = Shader.Find("Standard");
+        rend.material.shader = standard_shader;
         player = GameObject.FindGameObjectWithTag("Player");
         gm = GameObject.Find("gameManager").GetComponent<GameManager>();
         StartCoroutine(spawner());
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
+
+    // Update is called once per frame
+    void Update() {
+        //Debug.Log(rend.material.GetColor("_Color"));
+    }
 
     IEnumerator spawner()
     {
@@ -28,7 +32,7 @@ public class RandomCubes : MonoBehaviour {
             var spawn_rotation = Quaternion.identity;
             float[] state = { -12f, -4f, 4f, 12f };
             GameObject[] cubes = new GameObject[state.Length];
-            var player_color = player.GetComponent<MeshRenderer>().material.color;
+            var player_color = rend.material.color;
 
             for (int i = 0; i < state.Length; i++)
             {
@@ -46,30 +50,23 @@ public class RandomCubes : MonoBehaviour {
                     gm.lower_bound = spawn_position.x;
                 }
                 var cube = Instantiate(spawn, spawn_position, spawn_rotation) as GameObject;
+                cube.GetComponent<Renderer>().material.shader = standard_shader;
                 cubes[i] = cube;
-                //cube.GetComponent<MeshRenderer>().material.color = colors[Random.Range(0, colors.Length)];
             }
 
-            var chosen_index = Random.Range(0, state.Length-1);
-            var chosen_color = colors[Random.Range(0, colors.Length - 1)];
-            while (chosen_color == player_color)
-            {
-                chosen_color = colors[Random.Range(0, colors.Length - 1)];
-            }
-            cubes[chosen_index].GetComponent<MeshRenderer>().material.color = chosen_color;
+            var chosen_index = Random.Range(0, state.Length - 1);
+
+
             for (int i = 0; i < state.Length; i++)
             {
                 if (i != chosen_index)
                 {
-                    cubes[i].GetComponent<MeshRenderer>().material.color = player_color;
+                    cubes[i].GetComponent<Renderer>().material.color = player_color;
                 }
             }
-            player_color = colors[Random.Range(0, 3)];
-            gm.isCollided = false;
-            //for (int i = 0; i < state.Length; i++)
-            //{
-            //    Debug.Log(cubes[i].GetComponent<MeshRenderer>().material.color);
-            //}
+            var chosen_color = new Color(player_color.r + 0.1f, player_color.g + 0.1f, player_color.b + 0.1f);
+            cubes[chosen_index].GetComponent<Renderer>().material.color = chosen_color;
+            
             yield return new WaitForSeconds(4);
         }
     }

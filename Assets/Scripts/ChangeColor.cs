@@ -17,8 +17,7 @@ public class ChangeColor : MonoBehaviour {
     void Start () {
         gm = GameObject.Find("gameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player");
-        player_material = player.GetComponent<MeshRenderer>().material;
-        player_material.color = Color.red;
+        player_material = player.GetComponent<Renderer>().material;
         plane = GameObject.Find("Plane");
         var camera = GameObject.Find("Main Camera");
         skybox = camera.GetComponent<Skybox>();
@@ -35,13 +34,24 @@ public class ChangeColor : MonoBehaviour {
         //plane_material.color = Color.Lerp(start_color, end_color, lerp);
         //skybox.material.color = Color.Lerp(start_color, end_color, lerp);
 
-        if (player.transform.position.x > gm.upper_bound && player.transform.position.x > gm.lower_bound && !gm.isCollided)
+        if (player.transform.position.x > gm.upper_bound && player.transform.position.x > gm.lower_bound)
         {
-            gm.isAlive = false;
+            if (gm.isCollided)
+            {
+                gm.isCollided = false;
+                gm.upper_bound = 0;
+                gm.lower_bound = 900;
+                var player_color = player_material.color;
+                player_material.color = new Color(player_color.r + 0.1f, player_color.g + 0.1f, player_color.b + 0.1f);
+            }
+            else
+            {
+                gm.isAlive = false;
+            }
         }
         else if (player.transform.position.x >= gm.final_bound)
         {
             gm.isWinner = true;
-        }        
+        }       
     }
 }

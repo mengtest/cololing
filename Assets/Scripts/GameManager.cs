@@ -20,8 +20,10 @@ public class GameManager : MonoBehaviour {
     public float final_bound;
     private Button.ButtonClickedEvent event_restart;
     private Button.ButtonClickedEvent event_continue;
+    private GameObject player;
 	// Use this for initialization
 	void Start () {
+        player = GameObject.FindGameObjectWithTag("Player");
         event_restart = new Button.ButtonClickedEvent();
         event_restart.AddListener(Restart);
         restart.onClick = event_restart;
@@ -32,23 +34,22 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        score_board.text = "Color: " + score;
-        if (!isAlive)
-        {
-            var cubes = GameObject.FindGameObjectsWithTag("Respawn");
-            foreach (var item in cubes){
-                Destroy(item);
-            }
-            game_over.SetActive(true); 
-        }
-        if (isWinner)
+        if (!isAlive || isWinner)
         {
             var cubes = GameObject.FindGameObjectsWithTag("Respawn");
             foreach (var item in cubes)
             {
                 Destroy(item);
             }
-            game_win.SetActive(true);
+            Destroy(player);
+        }
+        if (!isAlive)
+        {         
+            game_over.SetActive(true); 
+        }
+        if (isWinner)
+        {
+          game_win.SetActive(true);
         }
     }
 

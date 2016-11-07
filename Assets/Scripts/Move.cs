@@ -25,7 +25,7 @@ public class Move : MonoBehaviour {
             m_RigidBody.AddForce(Vector3.right * 500 * Time.deltaTime);
             m_RigidBody.AddTorque(Vector3.back * 500 * Time.deltaTime);
         }
-        Debug.Log(m_RigidBody.velocity);
+        //Debug.Log(m_RigidBody.velocity);
         StartCoroutine(Evade());
     }
 
