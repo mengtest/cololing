@@ -40,9 +40,13 @@ public class ChangeColor : MonoBehaviour {
             {
                 gm.isCollided = false;
                 gm.upper_bound = 0;
-                gm.lower_bound = 900;
+                gm.lower_bound = gm.final_bound;
                 var player_color = player_material.color;
-                player_material.color = new Color(player_color.r + 0.1f, player_color.g + 0.1f, player_color.b + 0.1f);
+                player_material.color = new Color(player_color.r + 0.1f, player_color.g + 0.1f, player_color.b + 0.1f); // 球的颜色怎么变
+                // player_materal.color: Abeldo
+                // Emission:
+                // get: player_material.GetColor("_EmissionColor"); 
+                // set: player_material.SetColor("_EmissionColor", new Color(...));
             }
             else
             {

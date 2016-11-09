@@ -56,7 +56,6 @@ public class RandomCubes : MonoBehaviour {
 
             var chosen_index = Random.Range(0, state.Length - 1);
 
-
             for (int i = 0; i < state.Length; i++)
             {
                 if (i != chosen_index)
@@ -64,6 +63,8 @@ public class RandomCubes : MonoBehaviour {
                     cubes[i].GetComponent<Renderer>().material.color = player_color;
                 }
             }
+            // 不一样的那个柱子颜色变化
+            var change_value = Random.Range(0, 5);
             var chosen_color = new Color(player_color.r + 0.1f, player_color.g + 0.1f, player_color.b + 0.1f);
             cubes[chosen_index].GetComponent<Renderer>().material.color = chosen_color;
             
